@@ -32,3 +32,17 @@ test('Verify "Register" link text', async ( { page } ) => {
     const registerLinkText = await registerLink.textContent();
     expect(registerLinkText).toEqual("Register");
 });
+
+test('Verify valid user can login', async ( { page } ) => {
+    await page.goto(appUrl);
+    await page.waitForSelector('nav.navbar');
+    const loginLink = await page.$('a[href="/login"]');
+    await loginLink.click();
+    await page.fill("#email", "peter@abv.bg")
+    await page.fill("#password", "123456")
+    const loginButton = await page.$('#login-form > fieldset > input');
+    await loginButton.click();
+    const logoutButton = await page.$('#logoutBtn');
+    const logoutButtonText = await logoutButton.textContent();
+    expect(logoutButtonText).toEqual("Logout");
+});
